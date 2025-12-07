@@ -1,0 +1,36 @@
+# @package evaluation
+
+_target_: src.fashion_generation.evaluation.metrics.EvaluationMetrics
+
+# Evaluation configuration
+metrics:
+  - fid
+  - inception_score
+  - precision_recall
+  - lpips_diversity
+
+# FID configuration
+fid:
+  batch_size: 64
+  device: "auto"
+  dims: 2048
+  use_torch: true
+
+# Inception Score configuration
+inception_score:
+  batch_size: 64
+  splits: 10
+
+# Precision/Recall configuration
+precision_recall:
+  k: 3
+  batch_size: 64
+
+# LPIPS diversity configuration
+lpips_diversity:
+  net: "alex"  # alex, vgg, squeeze
+  batch_size: 64
+
+# Evaluation frequency
+eval_every_n_epochs: 5
+eval_samples: 1000

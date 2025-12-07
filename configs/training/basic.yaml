@@ -1,0 +1,54 @@
+# @package training
+
+_target_: src.fashion_generation.training.trainer.GANTrainer
+
+# Training configuration
+max_epochs: 100
+val_check_interval: 1.0
+log_every_n_steps: 50
+save_top_k: 3
+monitor: "val_fid"
+mode: "min"
+
+# Optimizer configuration
+optimizer:
+  generator:
+    _target_: torch.optim.Adam
+    lr: 0.0002
+    betas: [0.5, 0.999]
+    weight_decay: 0.0
+  discriminator:
+    _target_: torch.optim.Adam
+    lr: 0.0002
+    betas: [0.5, 0.999]
+    weight_decay: 0.0
+
+# Scheduler configuration
+scheduler:
+  generator:
+    _target_: torch.optim.lr_scheduler.CosineAnnealingLR
+    T_max: 100
+    eta_min: 1e-6
+  discriminator:
+    _target_: torch.optim.lr_scheduler.CosineAnnealingLR
+    T_max: 100
+    eta_min: 1e-6
+
+# Loss configuration
+loss:
+  generator_loss: "bce"  # bce, hinge, wasserstein
+  discriminator_loss: "bce"  # bce, hinge, wasserstein
+  label_smoothing: 0.0
+
+# Training stability
+stability:
+  gradient_clip_val: 1.0
+  gradient_clip_algorithm: "norm"
+  accumulate_grad_batches: 1
+  precision: 32  # 16, 32, bf16
+
+# Checkpointing
+checkpoint:
+  save_last: true
+  save_every_n_epochs: 10
+  filename: "epoch_{epoch:03d}-fid_{val_fid:.4f}"

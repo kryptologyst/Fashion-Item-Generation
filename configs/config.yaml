@@ -1,0 +1,55 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - model: dcgan
+  - data: fashion_mnist
+  - training: basic
+  - evaluation: standard
+
+# Project configuration
+project:
+  name: "fashion_item_generation"
+  version: "1.0.0"
+  description: "Modern GAN-based fashion item generation using Fashion-MNIST"
+
+# Paths
+paths:
+  data_dir: "data"
+  checkpoint_dir: "checkpoints"
+  assets_dir: "assets"
+  logs_dir: "logs"
+
+# Device configuration
+device:
+  auto: true  # Automatically detect best device
+  cuda: true
+  mps: true  # Apple Silicon support
+  cpu: true
+
+# Reproducibility
+seed: 42
+deterministic: true
+
+# Logging
+logging:
+  level: "INFO"
+  wandb:
+    enabled: false
+    project: "fashion-generation"
+    entity: null
+  tensorboard:
+    enabled: true
+    log_dir: "logs/tensorboard"
+
+# Sampling and demo
+sampling:
+  num_samples: 64
+  grid_size: 8
+  save_samples: true
+  sample_dir: "assets/generated"
+
+demo:
+  interface: "streamlit"  # or "gradio"
+  port: 8501
+  host: "localhost"

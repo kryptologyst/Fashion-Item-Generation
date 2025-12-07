@@ -1,0 +1,30 @@
+# @package model
+
+_target_: src.fashion_generation.models.dcgan.DCGAN
+
+# Model architecture
+z_dim: 100
+img_channels: 1
+img_size: 28
+
+# Generator configuration
+generator:
+  hidden_dims: [256, 512, 1024]
+  use_spectral_norm: true
+  use_batch_norm: true
+  dropout: 0.0
+
+# Discriminator configuration
+discriminator:
+  hidden_dims: [64, 128]
+  use_spectral_norm: true
+  use_batch_norm: true
+  dropout: 0.0
+  gradient_penalty:
+    enabled: true
+    lambda_gp: 10.0
+
+# EMA configuration
+ema:
+  enabled: true
+  decay: 0.999
